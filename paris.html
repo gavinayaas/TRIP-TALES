@@ -1,0 +1,280 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discover Paris — Interactive Tourist Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent: #ff6b6b;
+      --accent-2: #6b9cff;
+      --bg: linear-gradient(180deg,#081229 0%,#0f233d 100%);
+      --card-grad: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      --glass: rgba(255,255,255,0.06);
+      --glass-2: rgba(255,255,255,0.03);
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Montserrat,system-ui,Arial;color:#e6eef8;background:var(--bg);}
+    a{color:inherit;text-decoration:none}
+
+    /* NAV */
+    .nav{position:fixed;left:0;right:0;top:16px;display:flex;justify-content:space-between;align-items:center;padding:10px 28px;z-index:60}
+    .logo{display:flex;gap:12px;align-items:center}
+    .logo .mark{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-family:Playfair Display}
+    .nav-links{display:flex;gap:18px;background:transparent;padding:8px 12px;border-radius:12px}
+    .nav-links a{padding:8px 12px;border-radius:10px;transition:all .18s;opacity:.9}
+    .nav-links a:hover{transform:translateY(-3px);background:rgba(255,255,255,0.02)}
+
+    /* HERO */
+    .hero{min-height:80vh;display:grid;grid-template-columns:1fr 420px;gap:36px;align-items:center;padding:110px 6vw 60px}
+    .hero-left{max-width:760px}
+    h1{font-family:Playfair Display;font-size:48px;line-height:1.03;margin:0 0 12px;color:#fff;letter-spacing:-0.02em}
+    p.lead{opacity:.85;font-size:18px;margin-top:6px}
+
+    .cta{margin-top:20px;display:flex;gap:12px}
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:12px 18px;border-radius:12px;color:white;font-weight:700;cursor:pointer;border:none}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+
+    /* Mini cards */
+    .stats{display:flex;gap:12px;margin-top:22px}
+    .stat{background:var(--glass);padding:12px;border-radius:10px;min-width:120px}
+    .stat h3{margin:0;font-size:18px}
+    .stat p{margin:6px 0 0;color:#bcd0f1;opacity:.9}
+
+    /* Right panel (paris card) */
+    .hero-right{position:relative;padding:18px;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;backdrop-filter:blur(6px)}
+    .paris-card{overflow:hidden;border-radius:12px}
+    .paris-img{width:100%;height:380px;background-image:url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=');background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;color:#fff}
+    .paris-tag{background:rgba(0,0,0,0.35);padding:6px 10px;border-radius:8px;font-weight:700;display:inline-block}
+
+    /* FILTER + CARDS */
+    .section{padding:40px 6vw}
+    .filters{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+    .chip{padding:8px 12px;border-radius:999px;background:var(--glass);cursor:pointer;font-weight:600}
+    .chip.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .card{background:var(--card-grad);padding:14px;border-radius:14px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:10px}
+    .card h4{margin:10px 0 6px}
+    .card p{margin:0;color:#bcd0f1;font-size:14px}
+    .card .tag{position:absolute;top:12px;left:12px;background:rgba(0,0,0,0.45);padding:6px 8px;border-radius:8px;font-weight:700}
+
+    /* GALLERY */
+    .gallery{display:flex;gap:12px;flex-wrap:wrap}
+    .gallery img{width:calc(33.333% - 8px);border-radius:8px;cursor:pointer;height:120px;object-fit:cover}
+
+    /* MODAL */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;padding:24px;z-index:90;opacity:0;pointer-events:none;transition:all .18s}
+    .modal.show{opacity:1;pointer-events:auto}
+    .modal .inner{max-width:980px;width:100%;background:#071226;border-radius:12px;padding:18px}
+    .modal img{width:100%;height:auto;border-radius:8px}
+
+    /* FOOTER */
+    footer{padding:30px 6vw;color:#9fb0d6;font-size:14px;opacity:.95}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr; padding-top:90px}
+      .hero-right{order:2}
+      .hero-left{order:1}
+      .gallery img{width:calc(50% - 8px)}
+    }
+
+    /* small animations */
+    .float{animation:floaty 6s ease-in-out infinite}
+    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+    .fadein{animation:fade .6s ease both}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <div class="logo">
+      <div class="mark">P</div>
+      <div>
+        <div style="font-weight:800">Paris Unlocked</div>
+        <div style="font-size:12px;color:#9fb0d6">A quick interactive guide</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#attractions">Attractions</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#plan">Plan</a>
+      <a href="#contact" class="btn secondary">Contact</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="hero-left fadein">
+        <h1>Discover Paris — cafés, art & riverfront magic</h1>
+        <p class="lead">From the glittering Eiffel Tower to hidden lanes in Le Marais, this interactive mini-site helps you explore key places, craft a quick 2-day plan, filter attractions by type, and preview photos — all without leaving the page.</p>
+
+        <div class="cta">
+          <button class="btn" onclick="document.getElementById('attractions').scrollIntoView({behavior:'smooth'})">Explore attractions</button>
+          <button class="btn secondary" onclick="openGallery()">Open gallery</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <h3>Top pick</h3>
+            <p>Eiffel Tower — sunset viewpoint</p>
+          </div>
+          <div class="stat">
+            <h3>Best for</h3>
+            <p>Romance & photography</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-right float fadein">
+        <div class="paris-card">
+          <div class="paris-img">
+            <div class="paris-tag">Paris, France</div>
+            <div style="margin-top:12px;backdrop-filter:blur(4px)">
+              <h2 style="margin:0">Eiffel Tower</h2>
+              <p style="margin:6px 0 12px;opacity:.9">Climb, picnic at Champ de Mars, or take a Seine cruise nearby.</p>
+              <div style="display:flex;gap:8px">
+                <button class="btn" onclick="alert('Added to your favorites ❤')">Save</button>
+                <a class="btn secondary" href="#plan">Plan Visit</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:14px;">
+          <div style="flex:1;padding:12px;background:var(--glass);border-radius:10px">Best time: Apr - Jun, Sep - Oct</div>
+          <div style="width:120px;padding:12px;background:var(--glass);border-radius:10px">Entry: Paid / Free around</div>
+        </div>
+      </aside>
+    </section>
+
+    
+    <section id="attractions" class="section">
+      <h2 style="font-family:Playfair Display;margin:0 0 12px;color:#fff">Highlights & Attractions</h2>
+      <div class="filters">
+        <div class="chip active" data-filter="all" onclick="filterSelect(event)">All</div>
+        <div class="chip" data-filter="monument" onclick="filterSelect(event)">Monuments</div>
+        <div class="chip" data-filter="museum" onclick="filterSelect(event)">Museums</div>
+        <div class="chip" data-filter="park" onclick="filterSelect(event)">Parks & Views</div>
+        <div class="chip" data-filter="food" onclick="filterSelect(event)">Food & Cafés</div>
+      </div>
+
+      <div class="grid" id="cards">
+       
+        <div class="card" data-type="monument">
+          <div class="tag">Eiffel</div>
+          <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop&s=" alt="Eiffel">
+          <h4>Eiffel Tower</h4>
+          <p>Iconic iron lattice tower with observation decks & nearby picnic spots.</p>
+        </div>
+
+        <div class="card" data-type="museum">
+          <div class="tag">Louvre</div>
+          <img src="https://images.squarespace-cdn.com/content/v1/5edbbcf3253cf824ff6fd101/1746622908134-MQR1S54WLIG8YDQQAB3Y/1.jpg" alt="Louvre">
+          <h4>Louvre Museum</h4>
+          <p>World-class art collection — allow several hours to explore the highlights.</p>
+        </div>
+
+        
+        <div class="card" data-type="monument">
+          <div class="tag">Notre-Dame</div>
+          <img src="https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?q=80&w=1200&auto=format&fit=crop&s=" alt="Notre Dame">
+          <h4>Notre-Dame (Seine)</h4>
+          <p>Gothic cathedral (exterior & riverside walk) and Île de la Cité nearby.</p>
+        </div>
+
+        <div class="card" data-type="museum">
+          <div class="tag">Orsay</div>
+          <img src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200&auto=format&fit=crop&s=" alt="Orsay">
+          <h4>Musée d'Orsay</h4>
+          <p>Impressionist masterpieces in a converted railway station.</p>
+        </div>
+
+     
+        <div class="card" data-type="park">
+          <div class="tag">Montmartre</div>
+          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop&s=" alt="Montmartre">
+          <h4>Montmartre & Sacré-Cœur</h4>
+          <p>Hilltop basilica, sweeping views & charming artist squares.</p>
+        </div>
+
+      </div>
+    </section>
+
+    
+    <section id="gallery" class="section">
+      <h2 style="font-family:Playfair Display;margin:0 0 12px;color:#fff">Gallery</h2>
+      <div class="gallery" id="galleryGrid">
+        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop&s=" alt="1" onclick="openModal(this)">
+        
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop&s=" alt="3" onclick="openModal(this)">
+        <img src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200&auto=format&fit=crop&s=" alt="4" onclick="openModal(this)">
+        
+      </div>
+    </section>
+
+    
+    <div id="modal" class="modal" onclick="closeModal(event)">
+      <div class="inner" onclick="event.stopPropagation()">
+        <img id="modalImg" src="" alt="Expanded">
+      </div>
+    </div>
+
+   
+    <section id="plan" class="section">
+      <h2 style="font-family:Playfair Display;margin:0 0 12px;color:#fff">Quick 2-Day Plan</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px">
+        <div style="background:var(--glass);padding:16px;border-radius:12px">
+          <h3>Day 1 — Classic Paris</h3>
+          <ul>
+            <li>Eiffel Tower morning visit & Champ de Mars picnic</li>
+            <li>Seine river cruise midday</li>
+            <li>Musée d'Orsay in late afternoon</li>
+            <li>Dinner in Saint-Germain</li>
+          </ul>
+        </div>
+        <div style="background:var(--glass);padding:16px;border-radius:12px">
+          <h3>Day 2 — Art & Neighborhoods</h3>
+          <ul>
+            <li>Louvre highlights (prebook tickets)</li>
+            <li>Walk Île de la Cité & Saint-Chapelle</li>
+            <li>Explore Le Marais — cafés & boutiques</li>
+            <li>Sunset at Montmartre / Sacré-Cœur</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+   
+    <section id="contact" class="section">
+      <h2 style="font-family:Playfair Display;margin:0 0 12px;color:#fff">Get in touch</h2>
+      <form onsubmit="event.preventDefault(); alert('Thanks! We\'ll get back to you.');" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:820px">
+        <input placeholder="Your name" required style="grid-column:span 1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:#fff">
+        <input placeholder="Email" required style="grid-column:span 1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:#fff">
+        <textarea placeholder="Message" style="grid-column:span 2;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:#fff" rows="4"></textarea>
+        <button class="btn" style="grid-column:span 2">Send message</button>
+      </form>
+    </section>
+
+  </main>
+
+  <footer>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>© Paris Unlocked • Built with ❤</div>
+      <div style="opacity:.9">Tips: click images to enlarge • use filters to find attractions</div>
+    </div>
+  </footer>
+
+ 
+
+</body>
+</html>
