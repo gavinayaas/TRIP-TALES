@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trip to Bali – Travel notes, tips, and itinerary</title>
+  <meta name="description" content="A simple, fast travel page for Bali with highlights, budget, and a 5-day itinerary." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f1115; --surface: #161922; --text: #e9edf1; --muted: #a9b1ba;
+      --primary: #38bdf8; --accent: #f59e0b; --card: #1e2230; --border: #242a33;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 1024px; margin: 0 auto; padding: 0 16px; }
+
+    /* Header */
+    header { position: sticky; top: 0; z-index: 50; background: var(--surface); border-bottom: 1px solid var(--border); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
+    .logo { font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: .5px; }
+    nav a { color: var(--text); text-decoration: none; margin-left: 14px; padding: 6px 10px; border-radius: 8px; }
+    nav a:hover { background: var(--card); }
+
+    /* Hero */
+    .hero { padding: 28px 0; background: linear-gradient(180deg, var(--surface), transparent 60%); }
+    .hero-inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; align-items: center; }
+    .hero h1 { margin: 0 0 8px; font-size: 2rem; }
+    .hero p { margin: 0 0 14px; color: var(--muted); }
+    .hero img { width: 100%; border-radius: 16px; object-fit: cover; max-height: 320px; border: 1px solid var(--border); }
+
+    /* Sections */
+    section { padding: 22px 0; }
+    h2 { margin: 6px 0 12px; font-size: 1.4rem; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+    .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .muted { color: var(--muted); }
+    ul { margin: 8px 0 0; padding-left: 18px; }
+    .badge { display: inline-block; background: rgba(56,189,248,.16); color: var(--primary); border: 1px solid var(--border); padding: 4px 8px; border-radius: 8px; font-size: .85rem; margin-right: 8px; }
+
+    /* Itinerary */
+    .day { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+    .day h3 { margin: 0 0 6px; font-size: 1.05rem; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); background: var(--surface); }
+    .footer-inner { padding: 18px 0; text-align: center; color: var(--muted); }
+
+    /* Responsive */
+    @media (max-width: 960px) { .hero-inner { grid-template-columns: 1fr; } .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <a class="logo" href="#">Trip to Bali</a>
+      <nav>
+        <a href="#highlights">Highlights</a>
+        <a href="#itinerary">Itinerary</a>
+        <a href="#budget">Budget</a>
+        <a href="#tips">Tips</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <h1>Bali, Indonesia</h1>
+        <p>Temples at sunrise, rice terraces in the afternoon, and coastal sunsets that make you quiet down inside.</p>
+        <span class="badge">Ubud</span>
+        <span class="badge">Uluwatu</span>
+        <span class="badge">Canggu</span>
+      </div>
+      <img src="https://peterorsel.com/wp-content/uploads/2024/07/Header-1.jpg" alt="Bali rice terraces at sunrise">
+    </div>
+  </section>
+
+  
+  <section id="highlights">
+    <div class="container">
+      <h2>Highlights to experience</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Uluwatu cliffs & sunset</h3>
+          <p class="muted">Dramatic sea views, Kecak fire dance at dusk, and serene temple paths.</p>
+          <ul>
+            <li>Arrive 1 hour before sunset for the best light.</li>
+            <li>Carry a sarong; temple areas require modest clothing.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Ubud rice terraces</h3>
+          <p class="muted">Green layers and quiet trails; mornings are cooler and less crowded.</p>
+          <ul>
+            <li>Tegalalang at early hours for calm photos.</li>
+            <li>Small cafés with terrace views tucked in side lanes.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Waterfalls in the north</h3>
+          <p class="muted">Twin falls and natural pools; shoes with grip help on wet paths.</p>
+          <ul>
+            <li>Sekumpul or Tibumana for varied difficulty.</li>
+            <li>Keep cash for local entry points.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="itinerary">
+    <div class="container">
+      <h2>Simple 5-day itinerary</h2>
+
+      <div class="day">
+        <h3>Day 1: Arrival + Uluwatu</h3>
+        <p class="muted">Check-in, slow lunch, sunset at Uluwatu Temple, optional Kecak performance.</p>
+        <ul>
+          <li>Evening: Cliffside views, easy strolls.</li>
+          <li>Food: Nasi Campur or fresh seafood near Jimbaran.</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Day 2: Ubud terraces & temples</h3>
+        <p class="muted">Sunrise at Tegalalang, brunch, then Tirta Empul or Goa Gajah.</p>
+        <ul>
+          <li>Afternoon: Monkey Forest (watch belongings).</li>
+          <li>Evening: Ubud market lanes and cafés.</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Day 3: Waterfalls + coffee</h3>
+        <p class="muted">Head north for Sekumpul/Tibumana, then a local roastery tasting.</p>
+        <ul>
+          <li>Pack: Light rain jacket, towel, sandals.</li>
+          <li>Return: Sunset stop at Campuhan Ridge walk.</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Day 4: Beach day (Canggu)</h3>
+        <p class="muted">Surf lesson or chill by the shore; cafés and street food after.</p>
+        <ul>
+          <li>Try: Smoothie bowls, satay, fresh coconut.</li>
+          <li>Evening: Tanah Lot for a scenic sunset.</li>
+        </ul>
+      </div>
+
+      <div class="day">
+        <h3>Day 5: Nusa Penida option</h3>
+        <p class="muted">Early boat, coastal viewpoints, and natural pools; return by evening.</p>
+        <ul>
+          <li>Comfortable shoes; roads can be bumpy.</li>
+          <li>Carry water and sunscreen for long stretches.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="budget">
+    <div class="container">
+      <h2>Budget snapshot (per person)</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Stay</h3>
+          <p class="muted">Guesthouses and mid-range stays are plentiful.</p>
+          <ul>
+            <li>Typical: ₹2,500–₹6,000 per night</li>
+            <li>Tip: Check breakfast inclusion and location walkability.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Food</h3>
+          <p class="muted">Local warungs are affordable and delicious.</p>
+          <ul>
+            <li>Meals: ₹250–₹900</li>
+            <li>Cafés: ₹600–₹1,200</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Transport</h3>
+          <p class="muted">Mix of scooter rentals and day drivers.</p>
+          <ul>
+            <li>Scooter/day: ₹800–₹1,200</li>
+            <li>Driver/day: ₹3,500–₹6,000</li>
+          </ul>
+        </div>
+      </div>
+      <p class="muted">Prices vary by season and area; keep some buffer for activities and souvenirs.</p>
+    </div>
+  </section>
+
+  
+  <section id="tips">
+    <div class="container">
+      <h2>Practical tips</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Timing</h3>
+          <ul>
+            <li>Sunrise: Best for terraces and temples.</li>
+            <li>Midday: Hydrate, take shaded breaks.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Etiquette</h3>
+          <ul>
+            <li>Dress modestly at temples; carry a sarong.</li>
+            <li>Be mindful of offerings on sidewalks.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Pack light</h3>
+          <ul>
+            <li>Quick-dry clothes, sandals with grip.</li>
+            <li>Power adapter, sunscreen, hat.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <footer>
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Trip to Bali • Made with curiosity.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

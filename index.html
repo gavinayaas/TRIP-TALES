@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TripTales — Share your travel stories</title>
+  <meta name="description" content="TripTales - simple travel blog to write and share short travel stories" />
+
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#1e88e5;
+      --accent-2:#0ea5a5;
+      --danger:#dc2626;
+      --radius:12px;
+      --max-width:900px;
+      --glass: rgba(255,255,255,0.6);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 60%);
+      color:#111827;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:28px 16px;
+    }
+
+    .container{
+      width:100%;
+      max-width:var(--max-width);
+      background:transparent;
+    }
+
+    header.site-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:20px;
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:grid;
+      place-items:center;
+      color:white;
+      font-weight:700;
+      font-size:20px;
+      box-shadow:0 8px 24px rgba(30,88,168,0.12);
+    }
+
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted)}
+
+    main{
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:20px;
+      align-items:start;
+    }
+
+    @media (max-width:900px){
+      main{grid-template-columns:1fr}
+    }
+
+    /* form card */
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:0 6px 20px rgba(15,23,42,0.06);
+    }
+
+    label{display:block;font-weight:600;margin-bottom:6px}
+    input[type="text"], textarea{
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #e6edf3;
+      outline:none;
+      font-size:14px;
+      resize:vertical;
+      background:linear-gradient(180deg, #fff, #fbfdff);
+    }
+
+    textarea{min-height:150px}
+
+    .controls{display:flex;gap:8px;align-items:center;margin-top:12px}
+    .btn{
+      padding:10px 14px;border-radius:10px;border:0;font-weight:600;cursor:pointer;
+    }
+    .btn-primary{background:var(--accent);color:white}
+    .btn-ghost{background:transparent;border:1px solid #e6edf3}
+
+    .error{color:var(--danger);font-size:13px;margin-top:8px}
+
+    /* posts column */
+    .posts{display:flex;flex-direction:column;gap:12px}
+    article.post{
+      background:var(--card);
+      padding:14px;border-radius:12px;border:1px solid #eef2f8;
+      box-shadow:0 6px 16px rgba(15,23,42,0.04);
+    }
+
+    .meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
+    .meta .author{font-weight:600;color:#0f172a}
+
+    .post h3{margin:8px 0 6px}
+    .post p{margin:0 0 8px;white-space:pre-wrap}
+
+    .post .actions{display:flex;gap:8px}
+    .small{font-size:12px;color:var(--muted)}
+
+    footer.site-footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* small helper */
+    .hint{font-size:13px;color:var(--muted);margin-top:8px}
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav style="width:100%; background:#1e3a8a; padding:12px 20px; border-radius:8px; margin-bottom:20px; display:flex; justify-content:center; gap:25px;">
+    <a href="#story-form" style="color:white; font-weight:600; text-decoration:none;">Write Story</a>
+    <a href="#stories" style="color:white; font-weight:600; text-decoration:none;">Your Stories</a>
+    <a href="#destinations" style="color:white; font-weight:600; text-decoration:none;">Destinations</a>
+  </nav>
+
+
+  <section class="hero" style="width:100%; padding:40px 20px; text-align:center; background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=60') center/cover no-repeat; color:white; border-radius:8px; margin-bottom:20px;">
+    <h1 style="font-size:2.5rem; text-shadow:0 2px 5px rgba(0,0,0,0.4);">Welcome to TripTales</h1>
+    <p style="font-size:1.2rem; margin-top:10px; text-shadow:0 1px 4px rgba(0,0,0,0.4);">Every journey has a story — start writing yours today.</p>
+  </section>
+  <div class="container">
+    <header class="site-header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">TT</div>
+        <div>
+          <h1>TripTales</h1>
+          <p class="lead">Share short travel stories — inspire others!</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <p class="small">Local demo • Posts saved to this browser</p>
+      </div>
+    </header>
+
+    <main>
+      <!-- left: story feed -->
+      <section class="card" aria-labelledby="stories-heading">
+        <h2 id="stories-heading">Stories</h2>
+        <p class="hint">Latest travel tales from you. Click a story to read, or use the form to add your own.</p>
+
+        <div id="posts" class="posts" aria-live="polite" style="margin-top:12px">
+          <!-- posts injected here -->
+        </div>
+
+        <div id="empty" class="hint" style="display:none;margin-top:10px">No stories yet — be the first to share!</div>
+      </section>
+
+      <!-- right: composer -->
+      <aside class="card" aria-labelledby="compose-heading">
+        <h2 id="compose-heading">Write a story</h2>
+        <form id="storyForm" novalidate>
+          <div style="margin-top:12px">
+            <label for="title">Title</label>
+            <input id="title" name="title" type="text" maxlength="120" placeholder="e.g. Morning in Munnar" autocomplete="off" required />
+          </div>
+
+          <div style="margin-top:12px">
+            <label for="story">Your travel story</label>
+            <textarea id="story" name="story" maxlength="4000" placeholder="Tell us what happened, how you felt, a tip for others..." required></textarea>
+          </div>
+
+          <div class="controls">
+            <button type="submit" class="btn btn-primary">Post story</button>
+            <button type="button" id="clearBtn" class="btn btn-ghost">Clear</button>
+          </div>
+
+          <div id="formError" class="error" role="alert" aria-live="assertive" style="display:none"></div>
+          <p class="hint">Tip: include the city/place and one practical tip to help other travellers.</p>
+        </form>
+      </aside>
+    </main>
+
+    <footer class="card site-footer">
+      <div>Made with ❤ — TripTales • A tiny demo blog</div>
+      <div style="margin-top:6px">Built with semantic HTML, simple CSS, and JavaScript. Posts stored locally.</div>
+    </footer>
+
+<!-- Photo Gallery Section -->
+<section id="gallery" style="margin-top:40px;">
+  <h2 style="margin-bottom:15px;">Travel Photo Gallery</h2>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:15px;">
+    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=60" style="width:100%; height:150px; object-fit:cover; border-radius:8px;" />
+    <img src="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=600&q=60" style="width:100%; height:150px; object-fit:cover; border-radius:8px;" />
+    <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=60" style="width:100%; height:150px; object-fit:cover; border-radius:8px;" />
+    <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=600&q=60" style="width:100%; height:150px; object-fit:cover; border-radius:8px;" />
+  </div>
+</section>
+
+<!-- Back to Top Button -->
+<button onclick="window.scrollTo({top:0, behavior:'smooth'})" style="position:fixed; bottom:20px; right:20px; padding:10px 15px; background:#1e40af; color:white; border:none; border-radius:6px; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.3);">
+  ↑ Top
+</button>
+
+<!-- Featured Destinations Section -->
+<section id="destinations" style="margin-top:30px;">
+  <h2 style="margin-bottom:15px;">Featured Destinations</h2>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px;">
+    <div style="background:white; padding:10px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+      <a href="paris.html">
+      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=600&q=60" style="width:100%; border-radius:8px;">
+      </a>
+      <h3 style="margin-top:10px;">Paris, France</h3>
+      <p>A perfect mix of culture, food, and beautiful streets.</p>
+    </div>
+    <div style="background:white; padding:10px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+      <a href="japan.html">
+      <img src="https://images.unsplash.com/photo-1526779259212-939e64788e3c?auto=format&fit=crop&w=600&q=60" style="width:100%; border-radius:8px;">
+      </a>
+      <h3 style="margin-top:10px;">Tokyo, Japan</h3>
+      <p>Where tradition meets futuristic energy.</p>
+    </div>
+    <div style="background:white; padding:10px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+      <a href="bali.html">
+      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=60" style="width:100%; border-radius:8px;">
+     </a>
+      <h3 style="margin-top:10px;">Bali, Indonesia</h3>
+      <p>Peaceful beaches, greenery, and calming temples.</p>
+    </div>
+  </div>
+</section>
+  </div>
+
+  <script>
+    // Simple TripTales app script
+    (function(){
+      const form = document.getElementById('storyForm');
+      const titleInput = document.getElementById('title');
+      const storyInput = document.getElementById('story');
+      const postsEl = document.getElementById('posts');
+      const emptyEl = document.getElementById('empty');
+      const formError = document.getElementById('formError');
+      const clearBtn = document.getElementById('clearBtn');
+
+      const STORAGE_KEY = 'tripTales.posts.v1';
+
+      function loadPosts(){
+        try{
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : [];
+        }catch(e){
+          console.error('Failed to parse posts', e);
+          return [];
+        }
+      }
+
+      function savePosts(posts){
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+      }
+
+      function timeStamp(){
+        return new Date().toISOString();
+      }
+
+      function formatDate(iso){
+        const d = new Date(iso);
+        return d.toLocaleString();
+      }
+
+      function renderPosts(){
+        const posts = loadPosts().slice().reverse(); // newest first
+        postsEl.innerHTML = '';
+        if(posts.length === 0){
+          emptyEl.style.display = '';
+          return;
+        }
+        emptyEl.style.display = 'none';
+        posts.forEach((p, idx)=>{
+          const art = document.createElement('article');
+          art.className = 'post';
+          art.tabIndex = 0;
+
+          art.innerHTML = `
+            <div class="meta">
+              <div class="author">${escapeHtml(p.title)}</div>
+              <div class="small">${formatDate(p.created)}</div>
+            </div>
+            <h3>${escapeHtml(p.title)}</h3>
+            <p>${escapeHtml(p.body)}</p>
+            <div class="actions">
+              <button data-index="${p.id}" class="btn btn-ghost" aria-label="Delete story">Delete</button>
+            </div>
+          `;
+
+          // delete handler
+          art.querySelector('button').addEventListener('click', ()=>{
+            if(!confirm('Delete this story?')) return;
+            removePost(p.id);
+          });
+
+          postsEl.appendChild(art);
+        });
+      }
+
+      function removePost(id){
+        const posts = loadPosts().filter(p=>p.id !== id);
+        savePosts(posts);
+        renderPosts();
+      }
+
+      function addPost(title, body){
+        const posts = loadPosts();
+        const post = {id: cryptoRandomId(), title: title.trim(), body: body.trim(), created: timeStamp()};
+        posts.push(post);
+        savePosts(posts);
+        renderPosts();
+      }
+
+      function cryptoRandomId(){
+        // small unique id using random values
+        return 'id-' + Math.random().toString(36).slice(2,9) + '-' + Date.now().toString(36).slice(-4);
+      }
+
+      function escapeHtml(str){
+        if(!str) return '';
+        return String(str)
+          .replace(/&/g,'&amp;')
+          .replace(/</g,'&lt;')
+          .replace(/>/g,'&gt;')
+          .replace(/\"/g,'&quot;')
+          .replace(/\'/g,'&#39;')
+          .replace(/\n/g,'<br/>');
+      }
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        formError.style.display = 'none';
+        const title = titleInput.value || '';
+        const body = storyInput.value || '';
+
+        // validation: both not empty and not whitespace-only
+        if(!title.trim() || !body.trim()){
+          formError.textContent = 'Please enter both a title and a story before posting.';
+          formError.style.display = '';
+          return;
+        }
+
+        // small length checks
+        if(title.trim().length < 3){
+          formError.textContent = 'Title must be at least 3 characters.';
+          formError.style.display = '';
+          return;
+        }
+
+        addPost(title, body);
+        form.reset();
+        titleInput.focus();
+      });
+
+      clearBtn.addEventListener('click', ()=>{ form.reset(); formError.style.display='none'; titleInput.focus(); });
+
+      // initial render
+      renderPosts();
+
+      // expose for debugging in console (optional)
+      window.TripTales = {loadPosts, savePosts, renderPosts};
+    })();
+  </script>
+  <section class="intro" style="margin-top:20px; padding:15px; background:#eef6ff; border-left:4px solid #3b82f6; border-radius:8px;">
+    <h2>Why TripTales?</h2>
+    <p>TripTales is your space to capture memories, share small travel moments, and inspire others to explore new places. Every journey has a story — and yours deserves to be told.</p>
+  </section>
+
+  <section class="highlights" style="margin-top:25px; padding:15px; background:#fff7e6; border-left:4px solid #f59e0b; border-radius:8px;">
+    <h2>Travel Highlights</h2>
+    <ul style="margin-left:20px; line-height:1.6;">
+      <li>Add stories with your own title and description.</li>
+      <li>See your stories saved automatically in your browser.</li>
+      <li>Simple, clean, and distraction-free layout.</li>
+      <li>Perfect for beginners practicing HTML, CSS, and JavaScript.</li>
+    </ul>
+  </section>
+
+  <section class="sample-tips" style="margin-top:25px; padding:15px; background:#e7ffe6; border-left:4px solid #22c55e; border-radius:8px;">
+    <h2>Travel Tips</h2>
+    <p>Here are a few quick tips to make your travels easier:</p>
+    <ol style="margin-left:20px; line-height:1.6;">
+      <li>Always carry a small first-aid kit.</li>
+      <li>Keep a digital copy of important documents.</li>
+      <li>Learn basic local phrases — it helps everywhere.</li>
+      <li>Plan ahead, but leave room for surprises.</li>
+    </ol>
+  </section>
+
+  <!-- Snowfall Animation -->
+  <style>
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 18px;
+      pointer-events: none;
+      animation-name: fall;
+      animation-timing-function: linear;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+  </style>
+
+  <script>
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.innerHTML = '❄';
+
+      const size = Math.random() * 10 + 10;
+      const position = Math.random() * window.innerWidth;
+      const duration = Math.random() * 3 + 3;
+
+      snowflake.style.left = position + 'px';
+      snowflake.style.fontSize = size + 'px';
+      snowflake.style.animationDuration = duration + 's';
+
+      document.body.appendChild(snowflake);
+
+      setTimeout(() => {
+        snowflake.remove();
+      }, duration * 1000);
+    }
+
+    setInterval(createSnowflake, 200);
+  </script>
+</body>
+</html>
